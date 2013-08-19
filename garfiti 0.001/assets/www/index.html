@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+<!-- JQuery Mobile CDNS -->
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>
+<!--Toastr CDNS -->
+<script src = "http://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/js/toastr.js"></script>
+<link rel = "stylesheet" href = "http://cdnjs.cloudflare.com/ajax/libs/toastr.js/1.3.1/css/toastr.css" />
+
+<!-- Fonts -->
+<link href='http://fonts.googleapis.com/css?family=Reenie+Beanie' rel='stylesheet' type='text/css'>
+
+<!--Plugins-->
+<script src = "capture.js" type = "text/javascript"></script>
+<script src = "cordova.js" type = "text/javascript"></script>
+<script src = "EmailComposer.js" type = "text/javascript"></script>
+<script src = "webintent.js" type = "text/javascript"></script>
+
+
+<title> Garfiti POC </title>
+<style>
+[data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%; text-align: center;}
+</style>
+</head>
+<body onload = "loadContacts()">
+<script type = "text/javascript">
+
+</script>
+<!-- Home -->
+<div data-role="page" id="page1">
+<div data-role = "panel" id  = "panel">
+	<input type = "text" id = "name" placeholder = "Name" /><br />
+	<input type = 'text' id = 'email' placeholder = "Email"/><br />
+	<input type = "button" onclick = "addContact()" value = "Submit"/>
+	<H1>Contacts</h1>
+	<div id = "contacts">
+	
+	</div>
+</div>
+
+    <div data-theme="a" data-role="header">
+        <h1 id="header"  style = "font-family: Reenie Beanie, Helvettica; font-size: 55px; padding: none; margin: 0;">			
+         Garfiti
+        </h1>
+    </div>
+    <div data-role="content" id  = "content">
+	<a href = "#panel">Open Panel</a>
+    
+	
+    </div>
+	
+	
+	
+	<div data-role = "footer" data-theme = "a" icon = "star">
+		<a href = "javascript:changePage()" rel = "external" id = "newGarf"><img src = "images/plus-button.png" width = "20" height = "20" /></a>
+		<a href = "javascript: update()" rel = "external"><img src = "images/refresh.png" width = "20" height = "20"/>	</a>
+		<a href = "javascript: openFile()" rel = "external"><img src = "images/open.png" width = "20" height = "20" /></a>
+	</div>
+	
+</div>
+
+
+<script type = "text/javascript">
+$(document).ready(function(){
+ $("#page1").swiperight(function() {
+    $("#panel").panel("open");
+});
+
+});
+
+function addContact(){
+		var name = document.getElementById("name").value;
+		var email = document.getElementById("email").value;
+
+	//var a = new Array();
+	
+	var data = {
+		contactName: name,
+		contactEmail: email
+	};
+    // Parse the serialized data back into an aray of objects
+	var oldData = localStorage.getItem('contacts');
+	var a = JSON.parse(oldData || "null");
+	
+	
+	
+    // Push the new data (whether it be an object or anything else) onto the array
+    a.push(data);
+    // Alert the array value
+   //alert(a);  // Should be something like [Object array]
+    // Re-serialize the array back into a string and store it in localStorage
+    localStorage.setItem('contacts', JSON.stringify(a));
+	loadContacts();
+
+	}
+	
+	function loadContacts(){
+	
+	if(localStorage.contacts == undefined){
+		var dummyArray = new Array();
+		dummyArray[0] = "a contact";
+		localStorage.setItem('contacts', JSON.stringify(dummyArray));
+	}
+		document.getElementById("contacts").innerHTML = "";
+		var array  = localStorage.getItem('contacts');
+		var arrayParsed = JSON.parse(array);
+	
+		for(var i = 1;  i < arrayParsed.length ; i++){
+			var object = arrayParsed[i];
+			
+			var contactDiv = document.getElementById("contacts");
+			var contactDiv = document.getElementById("contacts");
+			
+			contactDiv.innerHTML +=  "<div id = 'aContact' style = 'border: 2px solid black; border-radius: 10px; margin: 5;'>" + "Name: " + object.contactName + "<br /> Email: " + object.contactEmail  + "</div>";
+		}
+	}
+</script>
+
+</script>
+</body>
+</html>
