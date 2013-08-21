@@ -12,17 +12,20 @@
 
     // device APIs are available
     //
-	function changePage(){
-		window.location = "input.html";
-	}
     // Called when a photo is successfully retrieved
     //
-	
+	function  changePage(){
+		window.location = "processing.html";
+	}
 	//USED FOR FIRST PHOTO --- SENDER
     function onPhotoDataSuccess(imageData) {
       ImageSrc = "data:image/jpeg;base64," + imageData;
+	  localStorage.setItem("imageSrc", ImageSrc);
+	  document.location.href = "input.html";
+	  }
+	  function backgroundSet(){
 	  var background = new Image();
-	  background.src = ImageSrc;
+	  background.src = localStorage.imageSrc;
 	  document.getElementById("page1").style.backgroundImage = "url(" + background.src + ")";
 	  document.getElementById("page1").style.backgroundSize = "100%";
 	  }
@@ -96,7 +99,7 @@
                     console.log("write success");
                 };
 
-                writer.write(document.getElementById("recipient").value + "\n" + document.getElementById("message").value + "\n" + document.getElementById("title").value + "\n" + localStorage.username + "\n" + ImageSrc);
+                writer.write(document.getElementById("recipient").value + "\n" + document.getElementById("message").value + "\n" + document.getElementById("title").value + "\n" + localStorage.username + "\n" + localStorage.imageSrc);
                 writer.abort();
                 // contents of file now 'some different text'
             }
