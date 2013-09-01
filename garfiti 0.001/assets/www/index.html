@@ -22,6 +22,9 @@
 <title> Garfiti POC </title>
 <style>
 [data-role=footer]{bottom:0; position:absolute !important; top: auto !important; width:100%; text-align: center;}
+#contact:hover{
+	background-color: yellow;
+}
 </style>
 </head>
 <body onload = "loadContacts()">
@@ -111,9 +114,9 @@ function addContact(){
 			var object = arrayParsed[i];
 			
 			var contactDiv = document.getElementById("contacts");
-			var contactDiv = document.getElementById("contacts");
+
 			
-			contactDiv.innerHTML +=  "<div id = 'aContact' style = 'border: 2px solid black; border-radius: 10px; margin: 5;'>" + "Name: " + object.contactName + "<br /> Email: " + object.contactEmail  + "</div>";
+			contactDiv.innerHTML +=  "<div id = 'contact' style = 'border: 2px solid black; padding: 5px;'>" + object.contactName + "<br />" + object.contactEmail + "</div>" ;
 		}
 	}
 </script>
