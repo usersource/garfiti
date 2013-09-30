@@ -2128,6 +2128,7 @@ class Dispatcher(webapp.RequestHandler):
         """Does a REST get, optionally using memcache to cache results.  See
         get_impl() for more details."""
 
+        self.response.headers.add_header("Access-Control-Allow-Origin", "*")
         self.authenticator.authenticate(self)
 
         if not self.caching:
@@ -2239,7 +2240,7 @@ class Dispatcher(webapp.RequestHandler):
     def post(self, *_):
         """Does a REST post, handles alternate HTTP methods specified via the
         'X-HTTP-Method-Override' header"""
-
+        self.response.headers.add_header("Access-Control-Allow-Origin", "*")
         self.authenticator.authenticate(self)
 
         real_method = self.request.headers.get(METHOD_OVERRIDE_HEADER, None)
