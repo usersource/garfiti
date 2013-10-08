@@ -2124,11 +2124,19 @@ class Dispatcher(webapp.RequestHandler):
             response.disp_cache_resp_ = True
             response.disp_out_type_ = TEXT_CONTENT_TYPE
 
+    def options(self, *args):
+        """Handler method for OPTIONS requests."""
+        self.response.headers.add_header("Access-Control-Allow-Origin","*")
+        self.response.headers.add_header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept")
+        self.response.headers.add_header("Access-Control-Allow-Methods","POST, GET, PUT, DELETE, OPTIONS")
+    
     def get(self, *_):
         """Does a REST get, optionally using memcache to cache results.  See
         get_impl() for more details."""
 
-        self.response.headers.add_header("Access-Control-Allow-Origin", "*")
+        self.response.headers.add_header("Access-Control-Allow-Origin","*")
+        self.response.headers.add_header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept")
+        self.response.headers.add_header("Access-Control-Allow-Methods","POST, GET, PUT, DELETE, OPTIONS")
         self.authenticator.authenticate(self)
 
         if not self.caching:
@@ -2240,7 +2248,9 @@ class Dispatcher(webapp.RequestHandler):
     def post(self, *_):
         """Does a REST post, handles alternate HTTP methods specified via the
         'X-HTTP-Method-Override' header"""
-        self.response.headers.add_header("Access-Control-Allow-Origin", "*")
+        self.response.headers.add_header("Access-Control-Allow-Origin","*")
+        self.response.headers.add_header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept")
+        self.response.headers.add_header("Access-Control-Allow-Methods","POST, GET, PUT, DELETE, OPTIONS")
         self.authenticator.authenticate(self)
 
         real_method = self.request.headers.get(METHOD_OVERRIDE_HEADER, None)
