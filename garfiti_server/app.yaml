@@ -5,9 +5,9 @@ api_version: 1
 threadsafe: true
 
 handlers:
-- url: /.*
-  script: garf_server.application
+- url: /_ah/spi/.*
+  script: garfiti_api.application
 
 libraries:
-- name: django
-  version: "1.2"
+- name: endpoints
+  version: 1.0
