@@ -12,25 +12,25 @@ class GarfModel(ndb.Model):
     to = ndb.StringProperty(indexed=True)
     from_who = ndb.StringProperty(indexed=True)
     title = ndb.StringProperty()
-    message_text = ndb.StringProperty()
+    message = ndb.StringProperty()
     image = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
            
     @classmethod
-    def put_from_message(cls, message):
-        entity = cls(to=message.to,
-                     from_who=message.from_who,
-                     title=message.title,
-                     message_text=message.message_text,
-                     image = message.image)
+    def put_from_message(cls, request):
+        entity = cls(to=request.to,
+                     from_who=request.from_who,
+                     title=request.title,
+                     message=request.message,
+                     image = request.image)
         entity.put()
         return entity.key.id()
     
     
     def to_response_message(self):
         return GarfResponseMessage(to=self.to, from_who=self.from_who, 
-                                   title=self.title, message_text=self.message_text,
-                                   image=self.image)
+                                   title=self.title, message=self.message,
+                                   image=self.image, id=self.key.id(), date=self.date)
         
     def to_response_message_by_projection(self, select_projection):
         result = GarfResponseMessage()

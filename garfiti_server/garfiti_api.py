@@ -15,7 +15,7 @@ from google.appengine.datastore.datastore_query import Cursor
 from google.appengine.ext.db import BadValueError
 
 
-@endpoints.api(name="garfiti_api", 
+@endpoints.api(name="garfiti", 
                version="v1", 
                description="Garfiti api", 
                allowed_client_ids=[endpoints.API_EXPLORER_CLIENT_ID])
@@ -31,7 +31,7 @@ class GarfitiApi(remote.Service):
         garfiti = GarfModel(to=request.to,
                             from_who=request.from_who,
                             title=request.title,
-                            message_text=request.message_text,
+                            message=request.message,
                             image = request.image)
         garfiti.put()
         return InsertResponseMessage(id=garfiti.key.id())
